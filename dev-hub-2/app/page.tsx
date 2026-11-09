@@ -3,7 +3,6 @@ import ProjectGrid from "@/components/ProjectGrid";
 import { readPosts } from "@/lib/github";
 export const dynamic = "force-dynamic";
 export default async function Home() {
-  let projects = [];
 let projects: typeof FEATURED_PROJECTS[number][] = [];
   try { projects = await readPosts(); } catch { loadError = true; }
   projects.sort((a,b)=>Number(!!b.featured)-Number(!!a.featured) || new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime());
