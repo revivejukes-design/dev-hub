@@ -1,12 +1,18 @@
-import Header from "@/components/Header";
-import ProjectGrid from "@/components/ProjectGrid";
-import { readPosts } from "@/lib/github";
-export const dynamic = "force-dynamic";
 export default async function Home() {
-let projects: typeof FEATURED_PROJECTS[number][] = [];
-  try { projects = await readPosts(); } catch { loadError = true; }
-  projects.sort((a,b)=>Number(!!b.featured)-Number(!!a.featured) || new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime());
-  return <main className="shell">
+  let projects: Awaited<ReturnType<typeof readPosts>> = [];
+  let loadError = false;
+
+  try {
+    projects = await readPosts();
+  } catch {
+    loadError = true;
+  }
+
+  projects.sort(
+    (a, b) =>
+      Number(!!b.featured) - Number(!!a.featured) ||
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
     <Header/>
     <section className="hero" id="about">
       <div><div className="eyebrow">A directory for the things you build / EST. 2026</div>
